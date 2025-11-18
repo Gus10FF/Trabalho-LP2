@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticação para Gerenciador de Tarefasss</title>
+    <link rel="stylesheet" href="estilo.css">
+    <!--favicon-->
+     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <header>        
+        <h1>Listas de Tarefas</h1>
+         <div class="user-menu">
+             <div class="user-info">
+            <span class="user-icon">👤</span>
+            <span class="user-email">usuario@email.com</span>
+        </div>
+        <button class="logout-btn" id="logoutBtn" title="Sair">🚪 Logout</button>
+    </div>
+    </header>
+
+    <form id="formTarefas">
+
+        <label for="tarefa">Tarefa:</label>
+        <input type="text" id="tarefa" required>
+        
+        <label for="prioridade">Prioridade:</label>
+        <select id="prioridade">
+            <option value="baixa">baixa</option>
+            <option value="alta">alta</option>
+        </select>
+
+        <label for="prazo">Prazo:</label>
+        <input type="date" id="prazo" required>
+
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" placeholder="Descreva essa tarefa" rows = "2" ></textarea>
+        <div></div>
+
+        <div class="button-container">
+            <button type="submit" title="Adicionar Tarefa">➕ Adicionar</button>
+        </div>
+    </form>
+
+    <button onclick="ordernarPrioridades()">📚 Ordernar por Prioridade</button>
+    <button onclick="removerTodas()">🗑️ Remover Todas</button>
+    
+
+    <div id="concluidas"></div>
+
+    <h1>Listagem</h1>
+    <div>
+        <table>
+            <thead>
+                <th>Prioridade</th>
+                <th>Tarefa</th>
+                <th>Descrição</th>
+                <th>Prazo</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </thead>
+            <tbody id="table-body">
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

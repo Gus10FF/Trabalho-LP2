@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {}
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Criar Nova Conta</h1>
+
+        <form id="signupForm" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <input type="email" id="email" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="seu@email.com">
+            </div>
+
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                <input type="password" id="password" required minlength="6"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Mínimo 6 caracteres">
+            </div>
+
+            <div>
+                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmar
+                    Senha</label>
+                <input type="password" id="confirmPassword" required minlength="6"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Digite a senha novamente">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
+                Criar Conta
+            </button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="index.html" class="text-sm text-blue-600 hover:underline">
+                Já tem uma conta? Faça login
+            </a>
+        </div>
+    </div>
+
+    <script type="module">
+        import { signup } from './js/modules/auth.js'
+
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            const email = document.getElementById('email').value
+            const password = document.getElementById('password').value
+            const confirmPassword = document.getElementById('confirmPassword').value
+
+            if (password !== confirmPassword) {
+                alert('As senhas não coincidem!')
+                return
+            }
+
+            try {
+                const result = await signup(email, password)
+
+                if (result.needsVerification) {
+                    alert('Conta criada com sucesso! Verifique seu email para ativar sua conta.')
+                    window.location.href = 'index.html'
+                } else {
+                    alert('Conta criada e ativada com sucesso!')
+                    localStorage.setItem('sb_token', result.data.access_token)
+                    localStorage.setItem('sb_refresh_token', result.data.refresh_token)
+                    window.location.href = 'dashboard.html'
+                }
+            } catch (error) {
+                alert('Erro ao criar conta: ' + error.message)
+            }
+        })
+    </script>
+</body>
+
+</html>
