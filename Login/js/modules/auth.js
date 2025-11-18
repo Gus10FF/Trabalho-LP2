@@ -16,6 +16,7 @@ export async function login(email, password) {
     const data = await res.json() 
     console.log('Resposta do supabase:', data)
 
+    //confirma se o login está correto
     if(!res.ok) { 
         const errorMsg = data.error_description || data.msg || "Erro no login"
         console.error('Erro no login:', errorMsg)
@@ -30,6 +31,7 @@ export async function login(email, password) {
     return data
 }
 
+//Verifica se já possui um usuário logado
 export async function getCurrentUser() {
     const token = localStorage.getItem('sb_token')
     
@@ -62,6 +64,7 @@ export async function getCurrentUser() {
     }
 }
 
+// Logout do usuario
 export async function logout() {
     localStorage.removeItem('sb_token')
     localStorage.removeItem('sb_refresh_token')
@@ -69,6 +72,7 @@ export async function logout() {
     window.location.href = 'index.html'
 }
 
+// Botão para logout
 const botao = document.getElementById('logoutBtn')
 if(botao) {
     botao.addEventListener('click', () => {
@@ -76,6 +80,7 @@ if(botao) {
     })
 }
 
+// Verifica se o usuário está autenticado
 export async function requireAuth() {
     const user = await getCurrentUser()
     if(!user) {
@@ -83,4 +88,5 @@ export async function requireAuth() {
        return false
     }
     return user
+
 }
